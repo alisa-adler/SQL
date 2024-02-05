@@ -58,3 +58,13 @@ VALUES
     ('Company KK', 'Healthcare', 150.2, 3400, 0, 16, 8, 5.3);
 
 
+--I marked companies with the highest revenue in each industry.
+SELECT industry, company_name, MAX (revenue) AS highest_revenue 
+FROM fortune_companies
+GROUP BY industry
+ORDER BY highest_revenue desc;
+
+-- I showed average maternity leave in Finance and Financials industries altogether.
+SELECT AVG (maternity_leave_weeks)
+FROM fortune_companies
+WHERE industry IN ('Finance', 'Financials');
