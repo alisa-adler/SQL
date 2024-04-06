@@ -34,11 +34,11 @@ FROM BIT_DB.Spotifydata
 ORDER BY popularity desc
 LIMIT 10;
 
--- 
-SELECT AVG(energy)
-FROM BIT_DB.Spotifydata
-HAVING duration_ms > (SELECT duration_ms
-FROM BIT_DB.Spotifydata ORDER BY duration_ms desc LIMIT 5);
+-- Show artist name, track name and song popularity for 2 artists.
+SELECT s.artist_name, s.track_name, s.popularity
+FROM BIT_DB.Spotifydata s
+WHERE s.artist_name IN ('Olivia Rodrigo', 'The Weeknd')
+ORDER BY s.artist_name;
 
 -- Singers who have more than 1 song in a top chart.
 SELECT artist_name, COUNT (track_name) number_of_songs
