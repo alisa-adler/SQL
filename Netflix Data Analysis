@@ -60,7 +60,7 @@ VALUES
     ('s20', NULL, 'Blanca SuÃ¡rez| IvÃ¡n Marcos| Ã“scar Casas| AdriÃ¡n Lastra| Francesc Garrido| Stefan Weinert| Julia MÃ¶ller| Alicia Chojnowski')
     ;
 
--- I made a list of the movies and tv shows in alphabetical order.
+-- The list of the movies and tv shows in alphabetical order.
 SELECT title
 FROM "netflix_titles_info"
 ORDER BY title asc;
@@ -87,3 +87,11 @@ FROM "netflix_titles_info"
 WHERE type = 'TV Show'
 ORDER BY duration desc
 LIMIT 3;
+
+-- Show movies where participated Arno Greeff or Sushar Manaying.
+SELECT t.title, p.cast
+FROM netflix_titles_info as t
+INNER JOIN netflix_people as p 
+ON t.show_id = p.show_id
+WHERE p.cast LIKE '%Arno Greeff%'
+OR p.cast LIKE '%Sushar Manaying%';
