@@ -1,3 +1,4 @@
+#In this SQL, I'm querying a database with data in it about city bike lanes.
 
 -- Made a list of all the bike lanes that have average safety rating of 4.0 or higher and labeled them as "Safe Lane".
 WITH safety_average_CTE AS (
