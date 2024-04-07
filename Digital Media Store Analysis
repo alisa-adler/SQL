@@ -1,0 +1,53 @@
+#In this SQL, I'm querying a database with multiple tables in it about a digital media store and includes tables for artists, albums, media tracks, invoices, and customers.
+
+--Show Customers who are not in the US.
+SELECT c.CustomerId, c.FirstName, c.LastName, c.Email, c.Country
+FROM chinook.customers c
+WHERE country <> 'USA'
+ORDER BY c.CustomerId;
+
+--Show only customers from Canada.
+SELECT c.CustomerId, c.FirstName, c.LastName, c.Email, c.Country
+FROM chinook.customers c
+WHERE country = 'Canada'
+ORDER BY c.CustomerId;
+
+--Show number of customers from each country and present with more customers first.
+SELECT c.Country, COUNT(c.CustomerId) as number_of_customers
+FROM chinook.customers c
+GROUP BY c.Country
+ORDER BY number_of_customers desc;
+
+--Find the Invoices of customers who are from Brazil. 
+SELECT c.FirstName, c.LastName, i.InvoiceId, i.InvoiceDate, i.BillingCountry
+FROM chinook.customers c
+LEFT JOIN chinook.invoices i
+ON c.CustomerId = i.CustomerId
+WHERE c.Country = 'Brazil';
+
+--Find a unique/distinct list of billing countries from the Invoice table.
+SELECT DISTINCT i.BillingCountry
+FROM chinook.invoices i;
+
+--The total sales made by each sales agent.
+SELECT e.EmployeeId, e.FirstName, e.LastName, e.Title, SUM(it.UnitPrice*it.Quantity)
+FROM chinook.employees e
+LEFT JOIN chinook.customers c
+ON e.EmployeeId = c.SupportRepId
+LEFT JOIN chinook.invoices i
+ON c.CustomerId = i.CustomerId
+LEFT JOIN chinook.invoice_items it
+ON i.InvoiceId = it.InvoiceId
+GROUP BY e.EmployeeId
+HAVING e.Title = 'Sales Support Agent';
+
+--How much time were purchase tracks in 2011 and show bestsellers first.
+SELECT t.TrackId, t.Name, SUM (it.Quantity) as total
+FROM chinook.tracks t
+INNER JOIN chinook.invoice_items it
+ON t.TrackId = it.TrackId
+INNER JOIN chinook.invoices i
+ON i.InvoiceId = it.InvoiceId
+WHERE i.InvoiceDate BETWEEN '2011-01-01' AND '2011-12-31'
+GROUP BY t.TrackId
+ORDER BY total desc;
